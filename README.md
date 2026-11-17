@@ -37,6 +37,12 @@ Everything is in the settings of any **Claude Status** key in the Stream Deck ap
 4. **Your cloud environment** on claude.ai/code (environment settings):
    - Network access: add your relay's domain, e.g. `claudedeck-relay.<your-subdomain>.workers.dev`, to the allowed domains.
    - Environment variables: `CLAUDEDECK_TOKEN=<the token from the Claude Status settings>`.
+   - **Environment with several repositories:** Claude Code starts in their parent folder (`/workspace`) and doesn't
+     read a repo's `.claude/settings.json`. Add this line to the environment's **setup script** (use the folder
+     name of a repo that has the cloud hook):
+     ```bash
+     node /workspace/<repo>/.claude/hooks/claudedeck.mjs install
+     ```
 5. Start a new cloud session. It appears on your deck with a small cloud mark.
 
 ## What is sent
@@ -54,6 +60,7 @@ answer your sessions, so treat it like a password. To revoke it, clear the Token
 
 - **Cloud sessions don't show up:** check that the relay domain is allowed in the cloud environment, `CLAUDEDECK_TOKEN`
   matches the token in the plugin, the repo's `.claude` files are pushed, and the session was started after that.
+  If the environment has more than one repository, add the setup script line from step 4.
 - **Open `https://<your relay>/` in a browser:** it should answer with a short status message.
 - **Turn on *Detailed logs*** in the Claude Status settings and look in the plugin's `logs` folder.
 
